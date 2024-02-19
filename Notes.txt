@@ -1,0 +1,21 @@
+DevFramework.Northwind.Entities= Veri tabaný nesnelerini tutacaðýmýz veya veri tabanýndaki joinler sonucunda oluþacak kompleks type'leri veya uygulama boyunca kullanabileceðimiz nesneleri buraya ekleyeceðiz.
+DevFramework.Northwind.DataAccess=Veri tabanýnda insert, update, delete, select sorgularýnýn çalýþacaðý katmandýr. ORM sorgularý burada gerçekleþecektir.
+DevFramework.Northwind.Business=Projeyi ilgilendiren iþ süreçlerinin kodlarý. Örneðin bir kiþinin ehliyet alacak, örneðin ilk yardým motor sýnavlarýndan geçer not almýþ mý?
+DevFramework.Northwind.MvcWebUI=Bir arayüz. Ve testler yazýlacak(DevFramework.Northwind.MvcWebUI.Tests)
+DevFramework.DataAccess.Tests=Unit Test Project
+DevFramework.Northwind.Business.Tests=Unit Test Project
+DevFramework.Northwind.WebAPI=Web API projemiz
+DevFramework.Northwind.WcfService=Wcf entegrasyonu olacak. WCF besleyecek. WcfService Solution içerisine eklememiz gerekiyor.
+---------------------------------------------
+**Bir teknoloji ile çalýþýlýyor ise o teknoloji mutlaka klasörlenmelidir.(Örnek EntityFramework,NHibernate)
+------------------------------------
+DataAccess
+*Abstract=Diðer katmanlarýn veriye eriþim iletiþim kurmasý için kullanýlacaktýr. Soyut class'lar. Business Layer veya Project NHibernate yada EntityFramework baðlý olmayacak.
+*Concrete=Asýl implementasyonu yapacak olan class'lar
+-----------
+Entities
+*Complex Type=2 veya 3 tablonun sonucunda oluþan nesne veya dto'lar
+--------------
+//Devart? araþtýr
+------------
+14.Adýmda =Data Access.Tests içerisinde App.config'te connection string eklendi. DataAccess.Tests içerisine EntityFramework eklendi.
