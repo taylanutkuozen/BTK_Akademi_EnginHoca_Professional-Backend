@@ -19,3 +19,4 @@ Entities
 //Devart? araþtýr
 ------------
 14.Adýmda =Data Access.Tests içerisinde App.config'te connection string eklendi. DataAccess.Tests içerisine EntityFramework eklendi.
+--------------------
