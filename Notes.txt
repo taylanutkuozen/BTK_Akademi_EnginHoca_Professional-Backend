@@ -20,3 +20,4 @@ Entities
 ------------
 14.Adýmda =Data Access.Tests içerisinde App.config'te connection string eklendi. DataAccess.Tests içerisine EntityFramework eklendi.
 --------------------
+Complex Types=Product ve Category nin join edilmiþ hali örnektir.
