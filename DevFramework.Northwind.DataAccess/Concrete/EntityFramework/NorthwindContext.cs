@@ -18,6 +18,7 @@ namespace DevFramework.Northwind.Entities.Concrete
             Database.SetInitializer<NorthwindContext>(null); //Migration'ı kapattık. Veritabanı hazır. Yeniden oluşturmaya çalışma.
         }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }//19.Adım
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new ProductMap());//Map işleminin gerçekleşmesi için yapılması gereken komutlar.
