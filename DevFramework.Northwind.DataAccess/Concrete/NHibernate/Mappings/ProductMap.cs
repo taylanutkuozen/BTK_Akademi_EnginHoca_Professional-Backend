@@ -11,9 +11,9 @@ NHibarnate'i SqlServer'a göre map işlemi için kullanacağız.
 */
 namespace DevFramework.Northwind.DataAccess.Concrete.NHibernate.Mappings
 {
-    public class ProduuctMap : ClassMap<Product> //FluentNHibernate içerisinden geliyor.
+    public class ProductMap : ClassMap<Product> //FluentNHibernate içerisinden geliyor.
     {
-        public ProduuctMap()
+        public ProductMap()
         {
             Table(@"Products");
             LazyLoad();

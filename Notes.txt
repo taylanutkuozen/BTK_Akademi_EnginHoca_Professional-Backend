@@ -21,3 +21,13 @@ Entities
 14.Adýmda =Data Access.Tests içerisinde App.config'te connection string eklendi. DataAccess.Tests içerisine EntityFramework eklendi.
 --------------------
 Complex Types=Product ve Category nin join edilmiþ hali örnektir.
+-------------
+Kurumsal Framework Yazýmý - II
+C#
+Fluent Validation
+Ninject
+PostSharp
+MemoryCache
+Moq ile Validation,
+Cache ve Transaction Aspect Tasarýmý
+-----------------------------------------
