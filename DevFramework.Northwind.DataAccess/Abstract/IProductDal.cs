@@ -14,6 +14,6 @@ namespace DevFramework.Northwind.DataAccess.Abstract
     public interface IProductDal : IEntityRepository<Product> /*21.Adım*/
     {
         //IProductDal a özgü işlemler yapıbilmek için burada komutlar yazabiliriz.
-        //List<ProductDetail> GetProductDetails();
+        List<ProductDetail> GetProductDetails();
     }
 }

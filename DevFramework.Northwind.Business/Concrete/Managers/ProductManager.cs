@@ -1,4 +1,6 @@
-﻿using DevFramework.Northwind.Business.Abstract;
+﻿using DevFramework.Core.CrossCuttingConcerns.Validation.FluentValidation;
+using DevFramework.Northwind.Business.Abstract;
+using DevFramework.Northwind.Business.ValidationRules.FluentValidation;
 using DevFramework.Northwind.DataAccess.Abstract;
 using DevFramework.Northwind.Entities.Concrete;
 using System;
@@ -16,6 +18,7 @@ namespace DevFramework.Northwind.Business.Concrete.Managers
         {
             _productDal = productDal; //Dependency Injection
         }
+        [FluentValidate(typeof(ProductValidator))]//24.Adım bir tane aspect yazıyoruz.
         public Product Add(Product product)
         {
             return _productDal.Add(product);
@@ -27,6 +30,11 @@ namespace DevFramework.Northwind.Business.Concrete.Managers
         public Product GetByID(int id)
         {
             return _productDal.Get(p=>p.ProductId==id);
+        }
+        [FluentValidate(typeof(ProductValidator))]
+        public Product Update(Product product) //24.Adım
+        {
+            return _productDal.Update(product);
         }
     }
 }

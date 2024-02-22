@@ -14,5 +14,6 @@ namespace DevFramework.Northwind.Business.Abstract
         List<Product> GetAllProducts();
         Product GetByID(int id);
         Product Add(Product product);
+        Product Update(Product product);///24.Adım
     }
 }

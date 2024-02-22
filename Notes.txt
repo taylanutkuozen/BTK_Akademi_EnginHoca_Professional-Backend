@@ -31,3 +31,6 @@ MemoryCache
 Moq ile Validation,
 Cache ve Transaction Aspect Tasarýmý
 -----------------------------------------
+22.Adým= Validation bir nesnenin format olarak uyumluluðu anlamýna gelmektedir. Business süreçlerini dahil etmek için format olarak uyumlu mu?
+-----------
+23.Adým=CrossCutting=Uygulamanýn belirli yerlerinde uygulamaya ek olarak çaðýrýrýz.
