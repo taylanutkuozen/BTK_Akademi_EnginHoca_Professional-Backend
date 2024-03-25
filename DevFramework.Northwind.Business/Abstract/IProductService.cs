@@ -15,5 +15,6 @@ namespace DevFramework.Northwind.Business.Abstract
         Product GetByID(int id);
         Product Add(Product product);
         Product Update(Product product);///24.Adım
+        void TransactionalOperation(Product product1, Product product2);//29.Adım
     }
 }

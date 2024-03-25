@@ -34,3 +34,21 @@ Cache ve Transaction Aspect Tasarýmý
 22.Adým= Validation bir nesnenin format olarak uyumluluðu anlamýna gelmektedir. Business süreçlerini dahil etmek için format olarak uyumlu mu?
 -----------
 23.Adým=CrossCutting=Uygulamanýn belirli yerlerinde uygulamaya ek olarak çaðýrýrýz.
+------------------
+26.Adým= Fake veya spy datalar nesneler oluþturmamýzý saðlayan Moq kullanacaðýz.
+temel kural=bir katmaný test ederken diðer katman test edilmez. IProductDal'ý Fake bir þekilde kullanmak için Moq kullanacaðýz.
+----------------
+27.Adým = Business katmanýnda Dependency Injection yapýyoruz. Dependency Injection Container ihtiyaç vardýr. Factory Design patternini implemente eden bir wrapper(sarmallayýcý) görevi görür. Ninject, Autofact gibi araçlar vardýr.
+------
+29.Adým=Transaction Yönetimi : Business Manager geldiðimizde Add ve Update iþlemlerini arka arkaya yapabiliriz. 1.iþlem baþarýlý olabilir 2.iþlem baþarýsýz olabilir 3.iþlem baþarýlý olabilir. Baþarýsýz iþlemi geri almak isteyebiliriz.
+---------
+31.Adým=Bir data arzu edildiðinde cache eklenecek. O datayý kullanan diðer kullanýcýlar cache'ta cache üzerinden datayý çekebilecek. output cache=Eðer ki bir data parametreleri ile birlikte cachelenirse ayný parametrelerle cachelensin. Datayý uygulama sunucusunun belleðinde tutacak. Belleðindeki dataya göre belleðini tüketerek diðer kullanýcýlar bu data üzerinden iþlem yapabilecek.(MemoryCache)
+------------
+C#
+AspNet MVC
+Log4Net
+PostSharp
+MemoryCache ile Profesyonel Loglama
+Cache
+Performans Yönetimi
+---------
