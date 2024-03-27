@@ -52,3 +52,4 @@ MemoryCache ile Profesyonel Loglama
 Cache
 Performans Yönetimi
 ---------
+42.Adým log4net.config ve web.config içerisinde log4net ile ilgili alanlardýr. log4net.config içerisinde FileLogger ve SqlServerAppender kontrol edildi.
