@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 */
 namespace DevFramework.Core.CrossCuttingConcerns.Logging.Log4Net.Loggers
 {
-    public class FileLogger : LoggerService
+    public class FileLogger : LoggerServiceBase
     {
-        public FileLogger(): base(LogManager.GetLogger("JsonFileLogger"))
+        public FileLogger(): base("JsonFileLogger")
         {
 
         }

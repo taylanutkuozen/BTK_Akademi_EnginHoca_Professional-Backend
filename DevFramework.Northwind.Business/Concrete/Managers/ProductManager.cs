@@ -27,6 +27,7 @@ namespace DevFramework.Northwind.Business.Concrete.Managers
         }
         [FluentValidationAspect(typeof(ProductValidator))]//24.Adım bir tane aspect yazıyoruz.
         [CacheRemoveAspect(typeof(MemoryCacheManager))]//34.Adım
+        [LogAspect(typeof(FileLogger))]
         public Product Add(Product product)
         {
             return _productDal.Add(product);

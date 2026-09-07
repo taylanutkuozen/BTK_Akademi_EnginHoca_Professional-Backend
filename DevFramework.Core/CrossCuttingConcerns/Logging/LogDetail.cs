@@ -10,8 +10,8 @@ namespace DevFramework.Core.CrossCuttingConcerns.Logging
 {
     public class LogDetail
     {
-        public string MethodFullName { get; set; }
+        //public string MethodFullName { get; set; }
         public string MethodName { get; set; }
-        public List<LogParameter> MethodParameters { get; set; }
+        public List<LogParameter> LogParameters { get; set; }
     }
 }

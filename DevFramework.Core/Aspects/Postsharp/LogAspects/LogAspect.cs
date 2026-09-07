@@ -1,5 +1,8 @@
-﻿using DevFramework.Core.CrossCuttingConcerns.Logging;
+﻿using Castle.DynamicProxy;
+using DevFramework.Core.CrossCuttingConcerns.Logging;
 using DevFramework.Core.CrossCuttingConcerns.Logging.Log4Net;
+using DevFramework.Core.Utilities.Interceptors;
+using DevFramework.Core.Utilities.Messages;
 using PostSharp.Aspects;
 using PostSharp.Extensibility;
 using PostSharp.Serialization;
@@ -14,51 +17,55 @@ using System.Threading.Tasks;
 */
 namespace DevFramework.Core.Aspects.Postsharp.LogAspects
 {
-    [PSerializable]
+    //[PSerializable]
     [MulticastAttributeUsage(MulticastTargets.Method, TargetMemberAttributes = MulticastAttributes.Instance)]
-    public class LogAspect:OnMethodBoundaryAspect
+    public class LogAspect:/*OnMethodBoundaryAspect*/MethodInterception
     {
-        Type _loggerType;
-        LoggerService _loggerService;
-        public LogAspect(Type loggerType)
+        Type _loggerService;
+        LoggerServiceBase _loggerServiceBase;
+        public LogAspect(Type loggerService)
         {
-            _loggerType = loggerType;
-        }
-        public override void RuntimeInitialize(MethodBase method)
-        {
-            if(_loggerType.BaseType!=typeof(LoggerService))
+            if(loggerService.BaseType!=typeof(LoggerServiceBase))
             {
-                throw new Exception("Wrong logger type");
+                throw new System.Exception(AspectMessages.WrongLoggerType);
             }
-            _loggerService = (LoggerService)Activator.CreateInstance(_loggerType);
-            base.RuntimeInitialize(method);
+            _loggerServiceBase=(LoggerServiceBase)Activator.CreateInstance(loggerService);
+            //_loggerService=loggerService;
         }
-        public override void OnEntry(MethodExecutionArgs args)
+        protected override void OnBefore(IInvocation invocation)
         {
-            if(!_loggerService.IsInfoEnabled)
+            //throw new Exception("LogAspect çalıştı!");
+            _loggerServiceBase.Info(GetLogDetail(invocation));
+        }
+        //public override void RuntimeInitialize(MethodBase method)
+        //{
+        //    _loggerServiceBase =
+        //        (LoggerServiceBase)Activator.CreateInstance(_loggerService);
+
+        //    base.RuntimeInitialize(method);
+        //}
+        //public override void OnEntry(MethodExecutionArgs args)
+        //{
+        //    _loggerServiceBase.Info(GetLogDetail(args));
+        //}
+        private LogDetail GetLogDetail(IInvocation invocation)
+        {
+            var logParameters=new List<LogParameter>();
+            for(int i = 0; i < invocation.Arguments.Length; i++)
             {
-                return;
-            }
-            try
-            {
-                var logParameters = args.Method.GetParameters().Select((t, i) => new LogParameter
-                { //select((t,i))--> t=type, i=iterator
-                    MethodParameterName = t.Name,
-                    MethodParameterType = t.ParameterType.Name,
-                    MethodParameterValue = args.Arguments.GetArgument(i)
-                }).ToList();
-                var logDetail = new LogDetail
+                logParameters.Add(new LogParameter
                 {
-                    MethodFullName = args.Method.DeclaringType == null ? null : args.Method.DeclaringType.Name,
-                    MethodName = args.Method.Name,
-                    MethodParameters = logParameters
-                };
-                _loggerService.Info(logDetail);
+                    MethodParameterName = invocation.GetConcreteMethod().GetParameters()[i].Name,
+                    MethodParameterValue = invocation.Arguments[i],
+                    MethodParameterType = invocation.Arguments[i].GetType().Name
+                });
             }
-            catch (Exception)
+            var logDetail = new LogDetail
             {
-                
-            }
+                MethodName = invocation.Method.Name,
+                LogParameters = logParameters
+            };
+            return logDetail;
         }
     }
 }

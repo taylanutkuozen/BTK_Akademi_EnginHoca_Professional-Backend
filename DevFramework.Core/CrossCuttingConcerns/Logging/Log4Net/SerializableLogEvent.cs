@@ -17,7 +17,7 @@ namespace DevFramework.Core.CrossCuttingConcerns.Logging.Log4Net
         {
             _loggingEvent=loggingEvent;
         }
-        public string UserName => _loggingEvent.UserName;
+        //public string UserName => _loggingEvent.UserName;
         public object MessageObject => _loggingEvent.MessageObject;
     }
 }

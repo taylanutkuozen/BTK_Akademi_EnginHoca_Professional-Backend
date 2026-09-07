@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 */
 namespace DevFramework.Core.CrossCuttingConcerns.Logging.Log4Net.Loggers
 {
-    public class DatabaseLogger : LoggerService
+    public class DatabaseLogger : LoggerServiceBase
     {
-        public DatabaseLogger():base(LogManager.GetLogger("DatabaseLogger"))
+        public DatabaseLogger():base("DatabaseLogger")
         {
 
         }
