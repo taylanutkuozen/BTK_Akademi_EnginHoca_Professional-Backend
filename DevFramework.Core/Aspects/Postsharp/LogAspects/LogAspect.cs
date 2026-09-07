@@ -17,9 +17,9 @@ using System.Threading.Tasks;
 */
 namespace DevFramework.Core.Aspects.Postsharp.LogAspects
 {
-    //[PSerializable]
-    [MulticastAttributeUsage(MulticastTargets.Method, TargetMemberAttributes = MulticastAttributes.Instance)]
-    public class LogAspect:/*OnMethodBoundaryAspect*/MethodInterception
+    [PSerializable]
+    //[MulticastAttributeUsage(MulticastTargets.Method, TargetMemberAttributes = MulticastAttributes.Instance)]
+    public class LogAspect:OnMethodBoundaryAspect//MethodInterception
     {
         Type _loggerService;
         LoggerServiceBase _loggerServiceBase;
@@ -29,43 +29,61 @@ namespace DevFramework.Core.Aspects.Postsharp.LogAspects
             {
                 throw new System.Exception(AspectMessages.WrongLoggerType);
             }
-            _loggerServiceBase=(LoggerServiceBase)Activator.CreateInstance(loggerService);
-            //_loggerService=loggerService;
+            //_loggerServiceBase=(LoggerServiceBase)Activator.CreateInstance(loggerService);
+            _loggerService=loggerService;
         }
-        protected override void OnBefore(IInvocation invocation)
-        {
-            //throw new Exception("LogAspect çalıştı!");
-            _loggerServiceBase.Info(GetLogDetail(invocation));
-        }
-        //public override void RuntimeInitialize(MethodBase method)
+        //protected override void OnBefore(IInvocation invocation)
         //{
-        //    _loggerServiceBase =
-        //        (LoggerServiceBase)Activator.CreateInstance(_loggerService);
+        //    //throw new Exception("LogAspect çalıştı!");
+        //    _loggerServiceBase.Info(GetLogDetail(invocation));
+        //}
+        public override void RuntimeInitialize(MethodBase method)
+        {
+            _loggerServiceBase =
+                (LoggerServiceBase)Activator.CreateInstance(_loggerService);
 
-        //    base.RuntimeInitialize(method);
-        //}
-        //public override void OnEntry(MethodExecutionArgs args)
-        //{
-        //    _loggerServiceBase.Info(GetLogDetail(args));
-        //}
-        private LogDetail GetLogDetail(IInvocation invocation)
+            base.RuntimeInitialize(method);
+        }
+        public override void OnEntry(MethodExecutionArgs args)
         {
-            var logParameters=new List<LogParameter>();
-            for(int i = 0; i < invocation.Arguments.Length; i++)
+            //throw new Exception("LogAspect OnEntry çalıştı! Method: " + args.Method.Name);
+            _loggerServiceBase.Info(GetLogDetail(args));
+        }
+        private LogDetail GetLogDetail(MethodExecutionArgs args/*IInvocation invocation*/)
+        {
+            var logParameters = new List<LogParameter>();
+            var parameters = args.Method.GetParameters();
+            for (int i = 0; i < args.Arguments.Count; i++)
             {
                 logParameters.Add(new LogParameter
                 {
-                    MethodParameterName = invocation.GetConcreteMethod().GetParameters()[i].Name,
-                    MethodParameterValue = invocation.Arguments[i],
-                    MethodParameterType = invocation.Arguments[i].GetType().Name
+                    MethodParameterName = parameters[i].Name,
+                    MethodParameterValue = args.Arguments[i],
+                    MethodParameterType = args.Arguments[i]?.GetType().Name
                 });
             }
             var logDetail = new LogDetail
             {
-                MethodName = invocation.Method.Name,
+                MethodName = args.Method.Name,
                 LogParameters = logParameters
             };
             return logDetail;
+            //var logParameters=new List<LogParameter>();
+            //for(int i = 0; i < invocation.Arguments.Length; i++)
+            //{
+            //    logParameters.Add(new LogParameter
+            //    {
+            //        MethodParameterName = invocation.GetConcreteMethod().GetParameters()[i].Name,
+            //        MethodParameterValue = invocation.Arguments[i],
+            //        MethodParameterType = invocation.Arguments[i].GetType().Name
+            //    });
+            //}
+            //var logDetail = new LogDetail
+            //{
+            //    MethodName = invocation.Method.Name,
+            //    LogParameters = logParameters
+            //};
+            //return logDetail;
         }
     }
 }

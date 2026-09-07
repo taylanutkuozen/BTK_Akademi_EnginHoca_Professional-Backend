@@ -16,11 +16,11 @@ namespace DevFramework.Core.Aspects.Postsharp
         Type _validatorType;
         public FluentValidationAspect(Type validatorType)
         {
-            _validatorType = _validatorType;
+            _validatorType = validatorType;
         }
         public override void OnEntry(MethodExecutionArgs args) //Methodun girişinde aspect devreye girecektir.
         {
-            var validator =(IValidator)Activator.CreateInstance(_validatorType);
+            var validator = (IValidator)Activator.CreateInstance(_validatorType);
             var entityType = _validatorType.BaseType.GetGenericArguments()[0];//Birinci generic argümanın Type'ı
             var entities = args.Arguments.Where(t => t.GetType() == entityType);//args çalıştırılan method ile ilgili bilgi almamızı sağlar. Where koşulunda çalışılan methodun parametrelerini gezip type'ı product olanları yakaladık.
             foreach (var entity in entities)
