@@ -36,5 +36,22 @@ namespace DevFramework.Northwind.MvcWebUI.Controllers
                 );
             return "Added";
         }
+        public string AddUpdate()
+        {
+            _productService.TransactionalOperation
+                (new Product { 
+                    CategoryId=1, 
+                    ProductName="Computer-1",
+                    QuantityPerUnit="1",
+                    UnitPrice= 28
+                }, new Product { 
+                    CategoryId=1, 
+                    ProductName="GSM223",
+                    QuantityPerUnit="1",
+                    UnitPrice= 40,
+                    ProductId=79
+                });
+            return "Added and Updated";
+        }
     }
 }

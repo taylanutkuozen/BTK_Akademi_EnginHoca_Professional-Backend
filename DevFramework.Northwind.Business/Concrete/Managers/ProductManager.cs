@@ -33,8 +33,8 @@ namespace DevFramework.Northwind.Business.Concrete.Managers
             return _productDal.Add(product);
         }
         [CacheAspect(typeof(MemoryCacheManager))]
-        //[LogAspect(typeof(DatabaseLogger))]//41.Adım
-        //[LogAspect(typeof(FileLogger))] //42.Adım
+        [LogAspect(typeof(DatabaseLogger))]//41.Adım
+        [LogAspect(typeof(FileLogger))] //42.Adım
         public List<Product> GetAllProducts()
         {
             return _productDal.GetList();
@@ -44,6 +44,7 @@ namespace DevFramework.Northwind.Business.Concrete.Managers
             return _productDal.Get(p=>p.ProductId==id);
         }
         [TransactionScopeAspect]
+        [FluentValidationAspect(typeof(ProductValidator))]
         public void TransactionalOperation(Product product1, Product product2) //29.Adım
         {
             _productDal.Add(product1);

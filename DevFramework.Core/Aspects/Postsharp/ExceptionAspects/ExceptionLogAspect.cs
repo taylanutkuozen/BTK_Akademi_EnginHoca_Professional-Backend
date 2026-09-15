@@ -3,16 +3,38 @@ using DevFramework.Core.CrossCuttingConcerns.Logging;
 using DevFramework.Core.CrossCuttingConcerns.Logging.Log4Net;
 using DevFramework.Core.Utilities.Interceptors;
 using DevFramework.Core.Utilities.Messages;
+using PostSharp.Aspects;
 using PostSharp.Constraints;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DevFramework.Core.Aspects.Postsharp.ExceptionAspects
 {
-    public class ExceptionLogAspect:MethodInterception
+    [Serializable]
+    public class ExceptionLogAspect:OnExceptionAspect
+    {
+        [NonSerialized]
+        private LoggerServiceBase _loggerServiceBase;
+        private Type _loggerType;
+        public ExceptionLogAspect(Type loggerType=null)
+        {
+                       _loggerType = loggerType;
+        }
+        public override void RuntimeInitialize(MethodBase method)
+        {
+            if(_loggerType!=null)
+            {
+                if (_loggerType.BaseType != typeof(LoggerServiceBase))
+                    throw new Exception("Wrong Logger Type");
+            }
+        }
+    }
+}//
+    /*public class ExceptionLogAspect:MethodInterception
     {
         private LoggerServiceBase _loggerServiceBase;
         public ExceptionLogAspect(Type loggerService)
@@ -49,4 +71,4 @@ namespace DevFramework.Core.Aspects.Postsharp.ExceptionAspects
             return logDetailWithException;
           }
       }
-}
+}*/
