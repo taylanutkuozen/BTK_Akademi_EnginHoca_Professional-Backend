@@ -43,7 +43,7 @@ namespace DevFramework.Northwind.MvcWebUI.Controllers
                     CategoryId=1, 
                     ProductName="Computer-1",
                     QuantityPerUnit="1",
-                    UnitPrice= 28
+                    UnitPrice= 2
                 }, new Product { 
                     CategoryId=1, 
                     ProductName="GSM223",

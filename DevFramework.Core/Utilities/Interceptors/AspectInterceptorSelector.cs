@@ -87,10 +87,9 @@ namespace DevFramework.Core.Utilities.Interceptors
                     MethodInterceptionBaseAttribute
                 >(true)
             );
-
-            attributes.Add(
-                new ExceptionLogAspect(typeof(FileLogger))
-            );
+            //attributes.Add(
+            //    new ExceptionLogAspect(typeof(DatabaseLogger))
+            //);
             var result = attributes
                 // .GroupBy(x => x.GetType())
                 //.Select(x => x.First())

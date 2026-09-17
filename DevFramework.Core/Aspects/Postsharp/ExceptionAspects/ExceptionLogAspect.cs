@@ -5,6 +5,7 @@ using DevFramework.Core.Utilities.Interceptors;
 using DevFramework.Core.Utilities.Messages;
 using PostSharp.Aspects;
 using PostSharp.Constraints;
+using PostSharp.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace DevFramework.Core.Aspects.Postsharp.ExceptionAspects
 {
-    [Serializable]
+    [PSerializable]
     public class ExceptionLogAspect:OnExceptionAspect
     {
         [NonSerialized]
@@ -30,6 +31,15 @@ namespace DevFramework.Core.Aspects.Postsharp.ExceptionAspects
             {
                 if (_loggerType.BaseType != typeof(LoggerServiceBase))
                     throw new Exception("Wrong Logger Type");
+            }
+            _loggerServiceBase = (LoggerServiceBase)Activator.CreateInstance(_loggerType, Type.EmptyTypes);
+            base.RuntimeInitialize(method);
+        }
+        public override void OnException(MethodExecutionArgs args)
+        {
+            if(_loggerServiceBase!=null)
+            {
+                _loggerServiceBase.Error(args.Exception);
             }
         }
     }
