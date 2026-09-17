@@ -5,6 +5,7 @@ using DevFramework.Core.Aspects.Postsharp.TransactionAspects;
 using DevFramework.Core.CrossCuttingConcerns.Caching.Microsoft;
 using DevFramework.Core.CrossCuttingConcerns.Logging.Log4Net.Loggers;
 using DevFramework.Core.CrossCuttingConcerns.Validation.FluentValidation;
+using DevFramework.Core.PerformanceAspects;
 using DevFramework.Northwind.Business.Abstract;
 using DevFramework.Northwind.Business.ValidationRules.FluentValidation;
 using DevFramework.Northwind.DataAccess.Abstract;
@@ -35,6 +36,7 @@ namespace DevFramework.Northwind.Business.Concrete.Managers
         [CacheAspect(typeof(MemoryCacheManager))]
         [LogAspect(typeof(DatabaseLogger))]//41.Adım
         [LogAspect(typeof(FileLogger))] //42.Adım
+        [PerformanceCounterAspect(2/*interval icin 2 saniye verdik default 5 yerine*/)]
         public List<Product> GetAllProducts()
         {
             return _productDal.GetList();

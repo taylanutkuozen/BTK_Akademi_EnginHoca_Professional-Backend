@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using PostSharp.Extensibility;
 using DevFramework.Core.Aspects.Postsharp.ExceptionAspects;
+using DevFramework.Core.PerformanceAspects;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
@@ -19,6 +20,7 @@ using DevFramework.Core.Aspects.Postsharp.ExceptionAspects;
 [assembly: LogAspect(typeof(FileLogger),AttributeTargetTypes="DevFramework.Northwind.Business.Concrete.Managers.*")]
 //[assembly: LogAspect(typeof(FileLogger), AttributeTargetTypes = "DevFramework.Core.*")]
 [assembly:ExceptionLogAspect(typeof(DatabaseLogger),AttributeTargetTypes ="DevFramework.Northwind.Business.Concrete.Managers.*")]
+[assembly:PerformanceCounterAspect(/*7interval icin default 5 yerine parametre olarak 7 verdik ,*/AttributeTargetTypes ="DevFramework.Northwind.Business.Concrete.Managers.*")]
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from
 // COM, set the ComVisible attribute to true on that type.
