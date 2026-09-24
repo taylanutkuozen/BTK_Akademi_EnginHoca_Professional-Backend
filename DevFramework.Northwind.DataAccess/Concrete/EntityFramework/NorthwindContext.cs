@@ -19,6 +19,9 @@ namespace DevFramework.Northwind.Entities.Concrete
         }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }//19.Adım
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserRole> UsersRoles { get; set; }
+        public DbSet<Role> Roles { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new ProductMap());//Map işleminin gerçekleşmesi için yapılması gereken komutlar.

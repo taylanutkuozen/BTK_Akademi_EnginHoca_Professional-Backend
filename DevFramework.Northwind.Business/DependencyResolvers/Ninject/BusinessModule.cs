@@ -38,9 +38,20 @@ namespace DevFramework.Northwind.Business.DependencyResolvers.Ninject
                     });
                 return proxy;
             }).InSingletonScope();
+            Bind<IUserService>().ToMethod(context =>
+            {
+                var target = context.Kernel.Get<UserManager>();
+                var proxy = _proxyGenerator.CreateInterfaceProxyWithTarget<IUserService>(target, new ProxyGenerationOptions
+                {
+                    Selector = new AspectInterceptorSelector(typeof(UserManager))
+                });
+                return proxy;
+            }).InSingletonScope();
+            Bind<UserManager>().ToSelf().InSingletonScope();
             Bind<ProductManager>().ToSelf().InSingletonScope();
             //Bind<IProductService>().To<ProductManager>().InSingletonScope(); //InSıngletonScope eklemez isek her istekte newleme işlemi yapılır. Bir IProductService instance'ı oluşturulduğunda ProductManagerdan bir instance al(nesne oluştur.)
             Bind<IProductDal>().To<EfProductDal>();
+            Bind<IUserDAL>().To<EfUserDAL>();
             ////Bind<IProductDal>().To<NhProductDAL>();
             Bind(typeof(IQueryableRepository<>)).To(typeof(EfQueryableRepository<>));
             //Bind(typeof(IQueryableRepository<>)).To(typeof(NhQuaryableRepository<>));

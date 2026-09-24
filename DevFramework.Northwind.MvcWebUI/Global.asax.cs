@@ -1,12 +1,16 @@
-﻿using DevFramework.Core.Utilities.Mvc.Infrastructure;
+﻿using DevFramework.Core.CrossCuttingConcerns.Security.Web;
+using DevFramework.Core.Utilities.Mvc.Infrastructure;
 using DevFramework.Northwind.Business.DependencyResolvers.Ninject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.Security;
 /*
 45.Adım 
 */
@@ -21,41 +25,37 @@ namespace DevFramework.Northwind.MvcWebUI
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             ControllerBuilder.Current.SetControllerFactory(new NinjectControllerFactory(new BusinessModule()));//45.Adım
-            //var builder = new ContainerBuilder();
-
-       //     // Controllers
-       //     builder.RegisterControllers(typeof(MvcApplication).Assembly);
-
-       //     // Data Access
-       //     builder.RegisterType<EfProductDal>().As<IProductDal>();
-       //     var businessAssembly = typeof(ProductManager).Assembly;
-       //     var dataAssembly = typeof(EfProductDal).Assembly;
-       //     // Business + Interception (Aspect'lerin çalışması için kritik kısım)
-       //     //builder.RegisterType<ProductManager>()
-       //     //       .As<IProductService>()
-       //     //       .EnableInterfaceInterceptors()
-       //     //       .InterceptedBy(typeof(AspectInterceptorSelector));
-       //     builder.RegisterAssemblyTypes(businessAssembly)
-       //.AsImplementedInterfaces()
-       //.EnableInterfaceInterceptors(new ProxyGenerationOptions
-       //{
-       //    Selector = new AspectInterceptorSelector()
-       //})
-       //.SingleInstance();
-       //     builder.RegisterAssemblyTypes(dataAssembly)
-       //.AsImplementedInterfaces()
-       //.SingleInstance();
-       //     // Gerekirse diğer manager'ları da aynı şekilde ekleyin
-       //     //builder.RegisterType<CategoryManager>()
-       //     //       .As<ICategoryService>()
-       //     //       .EnableInterfaceInterceptors()
-       //     //       .InterceptedBy(typeof(AspectInterceptorSelector));
-
-       //     // AspectInterceptorSelector'ı da kaydediyoruz
-       //     builder.RegisterType<AspectInterceptorSelector>();
-
-       //     var container = builder.Build();
-       //     DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+        }
+        public override void Init()
+        {
+            PostAuthenticateRequest += MvcApplication_PostAuthenticateRequest;
+            base.Init();
+        }
+        private void MvcApplication_PostAuthenticateRequest(object sender, EventArgs e)
+        {
+            try
+            {
+                var authCookie = HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName];
+                if (authCookie == null)
+                {
+                    return;
+                }
+                var encryptedTicket = authCookie.Value;
+                if (String.IsNullOrEmpty(encryptedTicket))
+                {
+                    return;
+                }
+                var ticket = FormsAuthentication.Decrypt(encryptedTicket);
+                var securityUtilities = new SecurityUtilities();
+                var identity = securityUtilities.FormsAuthTicketToIdentity(ticket);
+                var principal = new GenericPrincipal(identity, identity.Roles);
+                HttpContext.Current.User = principal;
+                Thread.CurrentPrincipal = principal;
+            }
+            catch (Exception ex)
+            {
+            
+            }
         }
     }
 }
