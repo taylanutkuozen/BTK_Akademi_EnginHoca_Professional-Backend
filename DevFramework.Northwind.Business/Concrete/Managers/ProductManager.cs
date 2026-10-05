@@ -1,4 +1,5 @@
-﻿using DevFramework.Core.Aspects.Postsharp;
+﻿using AutoMapper;
+using DevFramework.Core.Aspects.Postsharp;
 using DevFramework.Core.Aspects.Postsharp.AuthorizationAspects;
 using DevFramework.Core.Aspects.Postsharp.CacheAspects;
 using DevFramework.Core.Aspects.Postsharp.LogAspects;
@@ -7,6 +8,7 @@ using DevFramework.Core.CrossCuttingConcerns.Caching.Microsoft;
 using DevFramework.Core.CrossCuttingConcerns.Logging.Log4Net.Loggers;
 using DevFramework.Core.CrossCuttingConcerns.Validation.FluentValidation;
 using DevFramework.Core.PerformanceAspects;
+using DevFramework.Core.Utilities.Mappings;
 using DevFramework.Northwind.Business.Abstract;
 using DevFramework.Northwind.Business.ValidationRules.FluentValidation;
 using DevFramework.Northwind.DataAccess.Abstract;
@@ -42,14 +44,16 @@ namespace DevFramework.Northwind.Business.Concrete.Managers
         public List<Product> GetAllProducts()
         {
             //return _productDal.GetList();
-            return _productDal.GetList().Select(p => new Product
-            {
-                CategoryId=p.CategoryId,
-                ProductId=p.ProductId,
-                ProductName=p.ProductName,
-                QuantityPerUnit=p.QuantityPerUnit,
-                UnitPrice=p.UnitPrice
-            }).ToList();//Serilestirme problemini asmak icin bunu kullandik
+            //return _productDal.GetList().Select(p => new Product
+            //{
+            //    CategoryId=p.CategoryId,
+            //    ProductId=p.ProductId,
+            //    ProductName=p.ProductName,
+            //    QuantityPerUnit=p.QuantityPerUnit,
+            //    UnitPrice=p.UnitPrice
+            //}).ToList();Serilestirme problemini asmak icin bunu kullandik
+            var products = AutoMapperHelper.MapToSameTypeList(_productDal.GetList());
+            return products;
         }
         public Product GetByID(int id)
         {
