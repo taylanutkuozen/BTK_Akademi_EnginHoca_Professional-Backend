@@ -38,10 +38,18 @@ namespace DevFramework.Northwind.Business.Concrete.Managers
         [LogAspect(typeof(DatabaseLogger))]//41.Adım
         [LogAspect(typeof(FileLogger))] //42.Adım
         [PerformanceCounterAspect(2/*interval icin 2 saniye verdik default 5 yerine*/)]
-        [SecuredOperation(Roles="Admin,Editor")]
+        //[SecuredOperation(Roles="Admin,Editor")]
         public List<Product> GetAllProducts()
         {
-            return _productDal.GetList();
+            //return _productDal.GetList();
+            return _productDal.GetList().Select(p => new Product
+            {
+                CategoryId=p.CategoryId,
+                ProductId=p.ProductId,
+                ProductName=p.ProductName,
+                QuantityPerUnit=p.QuantityPerUnit,
+                UnitPrice=p.UnitPrice
+            }).ToList();//Serilestirme problemini asmak icin bunu kullandik
         }
         public Product GetByID(int id)
         {
