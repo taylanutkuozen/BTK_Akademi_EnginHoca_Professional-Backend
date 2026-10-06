@@ -24,7 +24,7 @@ namespace DevFramework.Northwind.MvcWebUI
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            ControllerBuilder.Current.SetControllerFactory(new NinjectControllerFactory(new BusinessModule()));//45.Adım
+            ControllerBuilder.Current.SetControllerFactory(new NinjectControllerFactory(new BusinessModule(),new AutoMapperModule()));//45.Adım
         }
         public override void Init()
         {

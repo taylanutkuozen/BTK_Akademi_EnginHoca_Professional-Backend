@@ -25,9 +25,11 @@ namespace DevFramework.Northwind.Business.Concrete.Managers
     public class ProductManager : IProductService
     {
         private  IProductDal _productDal;
-        public ProductManager(IProductDal productDal)
+        private readonly IMapper _mapper;
+        public ProductManager(IProductDal productDal,IMapper mapper)
         {
             _productDal = productDal; //Dependency Injection
+            _mapper = mapper;
         }
         [FluentValidationAspect(typeof(ProductValidator))]//24.Adım bir tane aspect yazıyoruz.
         [CacheRemoveAspect(typeof(MemoryCacheManager))]//34.Adım
@@ -52,7 +54,8 @@ namespace DevFramework.Northwind.Business.Concrete.Managers
             //    QuantityPerUnit=p.QuantityPerUnit,
             //    UnitPrice=p.UnitPrice
             //}).ToList();Serilestirme problemini asmak icin bunu kullandik
-            var products = AutoMapperHelper.MapToSameTypeList(_productDal.GetList());
+            //var products = AutoMapperHelper.MapToSameTypeList(_productDal.GetList());
+            var products = _mapper.Map<List<Product>>(_productDal.GetList());//-->Dependency Injection Version
             return products;
         }
         public Product GetByID(int id)

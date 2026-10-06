@@ -50,7 +50,7 @@ namespace DevFramework.Northwind.WebApi.App_Start
         ///Load your modules or register your services here
         private static void RegisterServices(IKernel kernel)
         {
-            kernel.Load(new BusinessModule());
+            kernel.Load(new BusinessModule(),new AutoMapperModule());
         }
     }
 }
