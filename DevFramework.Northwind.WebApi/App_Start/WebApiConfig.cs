@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevFramework.Northwind.WebApi.MessageHandlers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,6 +11,7 @@ namespace DevFramework.Northwind.WebApi.App_Start
     {
         public static void Register(HttpConfiguration config)
         {
+            config.MessageHandlers.Add(new AuthenticationHandler());
             config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute(
                   name:"DefaultApi",

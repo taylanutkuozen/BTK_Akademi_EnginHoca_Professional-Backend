@@ -42,7 +42,7 @@ namespace DevFramework.Northwind.Business.Concrete.Managers
         [LogAspect(typeof(DatabaseLogger))]//41.Adım
         [LogAspect(typeof(FileLogger))] //42.Adım
         [PerformanceCounterAspect(2/*interval icin 2 saniye verdik default 5 yerine*/)]
-        //[SecuredOperation(Roles="Admin,Editor")]
+        [SecuredOperation(Roles="Admin,Editor")]
         public List<Product> GetAllProducts()
         {
             //return _productDal.GetList();
